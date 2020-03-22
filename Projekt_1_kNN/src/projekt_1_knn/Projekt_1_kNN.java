@@ -52,11 +52,12 @@ public class Projekt_1_kNN {
 //                            List<IElementProbki> trainingElements,
 //                            List<IElementProbki> testElements 
     ){
+        /*
         System.out.println("Test ");
         for(int i = 0; i < testElements.size(); i++){
             System.out.println(i + " " + testElements.get(i).toString());
         }
-        
+        */
         List<IElementProbki> classedElementList = new ArrayList<>();
         for(int i = 0; i < testElements.size(); i++){
 //            testElements.get(i).setAtrybutDecezyjny(""); 
@@ -67,11 +68,12 @@ public class Projekt_1_kNN {
             );
             classedElementList.add(classedElement);
         }
+        /*
         System.out.println("classed ");
         for(int i = 0; i < classedElementList.size(); i++){
             System.out.println(i + " " + classedElementList.get(i).toString());
         }
-        
+        */
         
         
         
@@ -103,11 +105,13 @@ public class Projekt_1_kNN {
                 prawidlowoZaklasyfikowani++;
             }
         }
-        System.out.println("Size " + elementsAfterClassing.size());
+//        System.out.println("Size " + elementsAfterClassing.size());
             System.out.println(
-                "Prawidlowo Zaklasyfikowani elementy " 
-                + prawidlowoZaklasyfikowani + ","
-                + (prawidlowoZaklasyfikowani*100.0/elementsAfterClassing.size()));
+                "Prawidlowo Zaklasyfikowani elementy: " 
+                + prawidlowoZaklasyfikowani + "; \nW procenracg: "
+                + (prawidlowoZaklasyfikowani*100.0/elementsAfterClassing.size())
+                +"%;"
+            );
         
     
     }
@@ -124,7 +128,8 @@ public class Projekt_1_kNN {
                                                         );
         if(neighbours.length == 0)
             return null;
-        
+
+        /*
         for(int i = 0; i < neighbours.length; i++){
             System.out.print( neighbours[i].getAtrybutDecezyjny() + 
                     " atrybutDecezyjny distance " + neighbours[i].getDistance() 
@@ -135,6 +140,7 @@ public class Projekt_1_kNN {
             System.out.print("]\t");
         }
         System.out.println("");
+        */
         List<List<Neighbour>> classes = new ArrayList<>();
         
         classes.add(new ArrayList<Neighbour>());
@@ -161,7 +167,6 @@ public class Projekt_1_kNN {
                 }
             }
             
-//            System.out.println("IsAdede " + isAdded);
             if(!isAdded){
                 classes.add(new ArrayList<Neighbour>());
                 classes.get(classes.size() - 1 ).add(neighbours[i]);
@@ -181,9 +186,9 @@ public class Projekt_1_kNN {
         
 //        System.out.println("Unclased " + unclassedElement.getAtrybutDecezyjny() );
         //unclassedElement.setAtrybutDecezyjny(mainClass.get(0).getAtrybutDecezyjny());
-        
-        System.out.print("clased " + mainClass.get(0).getAtrybutDecezyjny() + " param " );
-        System.out.println(Arrays.toString( unclassedElement.getAtrybutyNumeryczne()));
+    // Покaзывает закласифицырованные объекты
+      //  System.out.print("clased " + mainClass.get(0).getAtrybutDecezyjny() + " param " );
+     //   System.out.println(Arrays.toString( unclassedElement.getAtrybutyNumeryczne()));
         Element element = new Element(mainClass.get(0).getAtrybutDecezyjny(), unclassedElement.getAtrybutyNumeryczne());
 //        System.out.println("New el " + element);
         return  element;
@@ -256,11 +261,13 @@ public class Projekt_1_kNN {
     public void start(){
         String command = "";
         Scanner commandLine = new Scanner(System.in);
-        System.out.println("You have two options: "
-                + "\n Use k-NN"
-                + "\n Insert new parametr");
         do{
-            command = commandLine.nextLine();
+            System.out.println("You have three options: "
+                + "\n Use k-NN"
+                + "\n Insert new parametr"
+                + "\n EXIT");
+            command = commandLine.nextLine().trim();
+           
             switch(command){
                 case "Use k-NN":
                     System.out.println("Write parametr k: ");
@@ -268,29 +275,23 @@ public class Projekt_1_kNN {
                     tryTestFile(parametr);
                     break;
                 case "Insert new parametr":
-                    System.out.println("Insert numeric parametrs with whitespace: ");
+                    System.out.println("Insert numeric parametrs with \';\'");
                     String doublePar = commandLine.nextLine();
                     StringTokenizer strTokenizer = new StringTokenizer(doublePar, ";");
                     double[] numericsParam = new double[strTokenizer.countTokens()];
-                    System.out.println("" + doublePar);
-                    System.out.println("counts " + strTokenizer.countTokens());
+                    
                     int limit = strTokenizer.countTokens();
                     for(int i = 0; i < limit; i++){
                         numericsParam[i] = Double.parseDouble(strTokenizer.nextToken().trim());
-                        System.out.println(i + " " + numericsParam[i]);
                     }
-                    System.out.println("Write parametr k ");
+                    System.out.print("Write parametr k ");
                     int parametrK = commandLine.nextInt();
                     IElementProbki defineEl = this.defineClassElement(
                         new Element ("", numericsParam), trainingElements, parametrK);
                 System.out.println(defineEl);
                     break;
             }
-            }while(command != "EXIT");
-        
-        // Считывание и выписыание команд
-        
-        
+            }while(!command.equals("EXIT"));
     }
     
 }
