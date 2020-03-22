@@ -138,8 +138,10 @@ public class Projekt_1_kNN {
         List<List<Neighbour>> classes = new ArrayList<>();
         
         classes.add(new ArrayList<Neighbour>());
-        classes.get(0).add(neighbours[0]);
-        for(int i = 1; i < neighbours.length; i++){
+        // Изменяю индкс neighbours с 0 на последний элемент
+        classes.get(0).add(neighbours[neighbours.length-1]);
+        //Цикл начинается не с начала, а с конца
+        for(int i = neighbours.length - 2; i > 0; i--){
             boolean isAdded = false;
             for(int j = 0; j < classes.size(); j++)
             {   
